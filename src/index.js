@@ -1,9 +1,20 @@
-const math = require('./math.js');
+const main = require('./main.js');
 
-/*console.log(math);*/
+const ejecutaPrograma = (ruta) => {
+    let rutaAbsoluta = ruta
+    
+   if(main.esRutaAbsoluta(rutaAbsoluta) == false){
+     rutaAbsoluta = main.convertirARutaAbsoluta(rutaAbsoluta) 
+   }
+
+  if(main.esRutaValida(rutaAbsoluta)){
+    
+  }else{
+      console.log('La ruta no es válida');
+  }
+};
 
 
- console.log(math.add(1,0));
- console.log(math.substract(2,1));
- console.log(math.multiply(1,0));
- console.log(math.divide(1,0));
+
+
+ejecutaPrograma('rutaPrueba');
