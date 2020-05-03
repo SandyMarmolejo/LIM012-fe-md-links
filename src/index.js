@@ -1,20 +1,20 @@
 const main = require('./main.js');
 
 const ejecutaPrograma = (ruta) => {
-    let rutaAbsoluta = ruta
-    
-   if(main.esRutaAbsoluta(rutaAbsoluta) == false){
-     rutaAbsoluta = main.convertirARutaAbsoluta(rutaAbsoluta) 
-   }
+  let rutaAbsoluta = ruta;
 
-  if(main.esRutaValida(rutaAbsoluta)){
-    
-  }else{
-      console.log('La ruta no es válida');
+  if (main.esRutaAbsoluta(rutaAbsoluta) === false) {
+    rutaAbsoluta = main.convertirARutaAbsoluta(rutaAbsoluta); 
+    console.log(rutaAbsoluta);
+  }
+
+  if (main.esRutaValida(rutaAbsoluta)) {
+    /* condicion */
+    console.log('La ruta es válida');
+  } else {
+    console.log('La ruta no es válida');
   }
 };
 
 
-
-
-ejecutaPrograma('rutaPrueba');
+ejecutaPrograma('package.json');
