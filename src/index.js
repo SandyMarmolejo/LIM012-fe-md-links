@@ -1,6 +1,6 @@
 const main = require('./main.js');
 
-/*const mdLinks = (route, option) => {}*/
+/* const mdLinks = (route, option) => {} */
 
 
 const ejecutaPrograma = (ruta) => {
@@ -14,30 +14,24 @@ const ejecutaPrograma = (ruta) => {
     if (main.esArchivo(rutaAbsoluta)) {
       // Búsqueda de archivos.md
       if (main.esArchivoMd(rutaAbsoluta)) {
-
         // Lectura del archivo y obtención de links
-        let links = main.obtenerLinks(rutaAbsoluta);
+        const links = main.obtenerLinks(rutaAbsoluta);
 
-        if (links.length > 0 ) {
-         
-         
+        if (links.length > 0) {
 
-        }else{
+
+        } else {
           console.log('No se encontraron links en este archivo');
         }
-
       } else {
         console.log('Tipo de archivo no válido');
       }
-
     } else {
       // Recorrer el directorio en búsqueda de archivos
     }
-    
   } else {
     console.log('La ruta no es válida');
   }
-
 };
 
 
