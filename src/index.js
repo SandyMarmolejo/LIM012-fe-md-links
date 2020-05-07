@@ -1,8 +1,5 @@
 const main = require('./main.js');
 
-/* const mdLinks = (route, option) => {} */
-
-
 const ejecutaPrograma = (ruta) => {
   let rutaAbsoluta = ruta;
 
@@ -16,10 +13,8 @@ const ejecutaPrograma = (ruta) => {
       if (main.esArchivoMd(rutaAbsoluta)) {
         // Lectura del archivo y obtención de links
         const links = main.obtenerLinks(rutaAbsoluta);
-
         if (links.length > 0) {
-
-
+        // Almacenar en un array con 3 propiedades
         } else {
           console.log('No se encontraron links en este archivo');
         }

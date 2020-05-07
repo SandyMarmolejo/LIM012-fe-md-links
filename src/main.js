@@ -3,16 +3,10 @@ const fs = require('fs');
 const marked = require('marked');
 
 // Determina si es una ruta absoluta, retorna un booleano.
-const esRutaAbsoluta = (ruta) => {
-  const esAbsoluta = path.isAbsolute(ruta);
-  return esAbsoluta;
-};
+const esRutaAbsoluta = ruta => path.isAbsolute(ruta);
 
 // Convirtiendo de ruta relativa a ruta absoluta.
-const convertirARutaAbsoluta = (ruta) => {
-  const rutaAbsoluta = path.resolve(ruta);
-  return rutaAbsoluta;
-};
+const convertirARutaAbsoluta = ruta => path.resolve(ruta);
 
 // Comprobando si la ruta es válida tanto si es fichero o carpeta, retorna un booleano.
 const esRutaValida = (ruta) => {
@@ -87,7 +81,6 @@ const procesarElementosDelDirectorio = (rutaDirectorio) => {
 };
 
 console.log(procesarElementosDelDirectorio('E:\\Laboratoria Sandy\\Proyectos Sandy\\LIM012-fe-md-links\\Dir01Prueba'));
-
 
 module.exports = {
   esRutaAbsoluta,
