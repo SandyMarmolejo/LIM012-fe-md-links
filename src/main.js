@@ -2,6 +2,7 @@ const path = require('path');
 const fs = require('fs');
 const marked = require('marked');
 const fetch = require('node-fetch');
+const validUrl = require('valid-url');
 
 // Determina si es una ruta absoluta, retorna un booleano.
 const esRutaAbsoluta = ruta => path.isAbsolute(ruta);
@@ -46,8 +47,10 @@ const obtenerLinks = (ruta) => {
       href,
       file,
     };
-
-    arrayLinks.push(link);
+    // Validando que sean url absolutas
+    if (validUrl.isUri(link.href)) {
+      arrayLinks.push(link);
+    }
   };
 
   const contenidoArchivo = obtenerContenidoDeArchivo(ruta);
@@ -80,55 +83,9 @@ const obtenerArchivosMdDelDirectorio = (rutaDirectorio, arrayArchivos) => {
   return arrayArchivos;
 };
 
-// Validando los links obtenidos, devuelve una promesa
-/* const validandoLinks = link => new Promise((resolve, reject) => {
-  // console.log(link.href)
-  fetch(link.href);
-}); */
-
-
-/* const obtenerEstadoDeLink = (link) => {
-  fetch(link).then((resultado) => {
-    const status = resultado.status;
-    let estadoLink = '';
-    // Código cuando recibimos una respuesta corréctamente del servidor
-    if (status >= 200 && status <= 308) {
-      estadoLink = 'ok';
-      // Código en caso de que nos respondan con algún error
-    } else {
-      estadoLink = 'fail';
-    }
-    console.log(`${estadoLink} ${status}`);
-  })
-  // Código en caso de que la llamada falle
-    .catch(() => {
-      console.log('fail ???');
-    });
-};
-
-obtenerEstadoDeLink('https://github.cp');
-*/
-
-const urls = [
-  {
-    href: 'https://www.google.com',
-    text: 'Mapa',
-    file: 'E:\\Laboratoria Sandy\\Proyectos Sandy\\LIM012-fe-md-links\\PRUEBA01.md',
-  },
-  {
-    href: 'https://developer.mozilla.org/es/docs/Web/HTTP/Status',
-    text: 'GitHub',
-    file: 'E:\\Laboratoria Sandy\\Proyectos Sandy\\LIM012-fe-md-links\\PRUEBA01.md',
-  },
-  {
-    href: 'https://github.com/node-fetch/node-fetch/blob/HEAD/ERROR-HANDLING.md',
-    text: 'NodeFetch',
-    file: 'E:\\Laboratoria Sandy\\Proyectos Sandy\\LIM012-fe-md-links\\PRUEBA01.md',
-  },
-];
-const obtenerUrls = (urls) => {
+const validarLinks = (links) => {
 // map every url to the promise of the fetch
-  const requests = urls.map(elem => fetch(elem.href)
+  const requests = links.map(elem => fetch(elem.href)
     .then((resultado) => {
       const objetoCincoPropiedades = {
         href: elem.href,
@@ -139,21 +96,16 @@ const obtenerUrls = (urls) => {
       objetoCincoPropiedades.status = resultado.status;
       if (resultado.status >= 200 && resultado.status <= 308) {
         objetoCincoPropiedades.statusText = 'ok';
-      }else{
+      } else {
         objetoCincoPropiedades.statusText = 'fail';
       }
       return objetoCincoPropiedades;
     }));
 
-  // console.log(requests);
-
-  // Promise.all waits until all jobs are resolved
   return Promise.all(requests)
     .then(response => console.log(response))
     .catch(err => console.error(err));
 };
-
-obtenerUrls(urls);
 
 
 /* Ejemplos de links prueba para su validacion
@@ -183,4 +135,5 @@ module.exports = {
   esArchivoMd,
   obtenerLinks,
   obtenerArchivosMdDelDirectorio,
+  validarLinks,
 };

@@ -28,6 +28,7 @@
     "eslint-plugin-jest": "^22.1.2",
     "jest": "^25.4.0",
     "marked": "^1.0.0",
-    "node-fetch": "^2.6.0"
+    "node-fetch": "^2.6.0",
+    "valid-url": "^1.0.9"
   }
 }
