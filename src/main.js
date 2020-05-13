@@ -1,6 +1,7 @@
 const path = require('path');
 const fs = require('fs');
 const marked = require('marked');
+const fetch = require('node-fetch');
 
 // Determina si es una ruta absoluta, retorna un booleano.
 const esRutaAbsoluta = ruta => path.isAbsolute(ruta);
@@ -8,7 +9,7 @@ const esRutaAbsoluta = ruta => path.isAbsolute(ruta);
 // Convirtiendo de ruta relativa a ruta absoluta.
 const convertirARutaAbsoluta = ruta => path.resolve(ruta);
 
-// Comprobando si la ruta es válida tanto si es fichero o carpeta, retorna un booleano.
+// Comprobando si la ruta es válida tanto si es archivo o directorio, retorna un booleano.
 const esRutaValida = (ruta) => {
   try {
     fs.statSync(ruta);
@@ -51,18 +52,17 @@ const obtenerLinks = (ruta) => {
 
   const contenidoArchivo = obtenerContenidoDeArchivo(ruta);
 
-  // Convierte el contenido en html y usa el renderer para buscar lo que hemos establecido (links) pero puede ser otro tag html.
+  // Convierte el contenido en html y usa el renderer para buscar lo que hemos establecido (links).
+
   marked(contenidoArchivo, { renderer });
 
   return arrayLinks;
 };
 
-// Lectura sincrónica del contenido de un directorio, retorna un array (nombre de archivos y directorios).
+// Lectura sincrónica del contenido de un directorio, retorna un array (nombre de archiv y direct).
 const obtenerElementosDelDirectorio = rutaDirectorio => fs.readdirSync(rutaDirectorio, 'utf8');
 
-const arrayArchivos = [];
-
-const procesarElementosDelDirectorio = (rutaDirectorio) => {
+const obtenerArchivosMdDelDirectorio = (rutaDirectorio, arrayArchivos) => {
   const elementos = obtenerElementosDelDirectorio(rutaDirectorio);
 
   elementos.forEach((elemento) => {
@@ -73,14 +73,107 @@ const procesarElementosDelDirectorio = (rutaDirectorio) => {
         arrayArchivos.push(rutaElemento);
       }
     } else {
-      procesarElementosDelDirectorio(rutaElemento);
+      obtenerArchivosMdDelDirectorio(rutaElemento, arrayArchivos);
     }
   });
 
   return arrayArchivos;
 };
 
-console.log(procesarElementosDelDirectorio('E:\\Laboratoria Sandy\\Proyectos Sandy\\LIM012-fe-md-links\\Dir01Prueba'));
+// Validando los links obtenidos, devuelve una promesa
+/* const validandoLinks = link => new Promise((resolve, reject) => {
+  // console.log(link.href)
+  fetch(link.href);
+}); */
+
+
+/* const obtenerEstadoDeLink = (link) => {
+  fetch(link).then((resultado) => {
+    const status = resultado.status;
+    let estadoLink = '';
+    // Código cuando recibimos una respuesta corréctamente del servidor
+    if (status >= 200 && status <= 308) {
+      estadoLink = 'ok';
+      // Código en caso de que nos respondan con algún error
+    } else {
+      estadoLink = 'fail';
+    }
+    console.log(`${estadoLink} ${status}`);
+  })
+  // Código en caso de que la llamada falle
+    .catch(() => {
+      console.log('fail ???');
+    });
+};
+
+obtenerEstadoDeLink('https://github.cp');
+*/
+
+const urls = [
+  {
+    href: 'https://www.google.com',
+    text: 'Mapa',
+    file: 'E:\\Laboratoria Sandy\\Proyectos Sandy\\LIM012-fe-md-links\\PRUEBA01.md',
+  },
+  {
+    href: 'https://developer.mozilla.org/es/docs/Web/HTTP/Status',
+    text: 'GitHub',
+    file: 'E:\\Laboratoria Sandy\\Proyectos Sandy\\LIM012-fe-md-links\\PRUEBA01.md',
+  },
+  {
+    href: 'https://github.com/node-fetch/node-fetch/blob/HEAD/ERROR-HANDLING.md',
+    text: 'NodeFetch',
+    file: 'E:\\Laboratoria Sandy\\Proyectos Sandy\\LIM012-fe-md-links\\PRUEBA01.md',
+  },
+];
+const obtenerUrls = (urls) => {
+// map every url to the promise of the fetch
+  const requests = urls.map(elem => fetch(elem.href)
+    .then((resultado) => {
+      const objetoCincoPropiedades = {
+        href: elem.href,
+        text: elem.text,
+        file: elem.file,
+      };
+
+      objetoCincoPropiedades.status = resultado.status;
+      if (resultado.status >= 200 && resultado.status <= 308) {
+        objetoCincoPropiedades.statusText = 'ok';
+      }else{
+        objetoCincoPropiedades.statusText = 'fail';
+      }
+      return objetoCincoPropiedades;
+    }));
+
+  // console.log(requests);
+
+  // Promise.all waits until all jobs are resolved
+  return Promise.all(requests)
+    .then(response => console.log(response))
+    .catch(err => console.error(err));
+};
+
+obtenerUrls(urls);
+
+
+/* Ejemplos de links prueba para su validacion
+404 - Not Found
+https://github.com/node-fetch/node-fetch/blob/HEAD/ERROR-HANDLING.md
+
+link roto
+https://github.cp
+
+
+// Link valida
+https://www.google.com
+*/
+
+// Ruta de un archivo md
+// 'E:\\Laboratoria Sandy\\Proyectos Sandy\\LIM012-fe-md-links\\PRUEBA01.md'
+
+// La función mdLinks retorna una promesa
+// const mdLinks = (ruta, options = { validate: true }) => new Promise((resolve, reject) => {
+
 
 module.exports = {
   esRutaAbsoluta,
@@ -89,4 +182,5 @@ module.exports = {
   esArchivo,
   esArchivoMd,
   obtenerLinks,
+  obtenerArchivosMdDelDirectorio,
 };
