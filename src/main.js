@@ -127,9 +127,19 @@ const links = [
     text: 'Facebook',
     file: 'title',
   },
+  {
+    href: 'http://www.twitter.es',
+    text: 'Google',
+    file: 'title',
+  }
 ];
 
-validarLinks(links);*/
+*/
+
+
+
+
+//validarLinks(links);
 
 // La función mdLinks retorna una promesa
 /* cont mdLinks = (ruta, options = { validate: true }) => new Promise((resolve, reject) => {
