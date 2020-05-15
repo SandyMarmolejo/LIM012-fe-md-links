@@ -69,6 +69,7 @@ const obtenerArchivosMdDelDirectorio = (rutaDirectorio, arrayArchivos) => {
   const elementos = obtenerElementosDelDirectorio(rutaDirectorio);
 
   elementos.forEach((elemento) => {
+    // Concateno la ruta del directorio y (nombre de archivo o directorio q estoy recorriendo)
     const rutaElemento = `${rutaDirectorio}\\${elemento}`;
 
     if (esArchivo(rutaElemento)) {
@@ -76,6 +77,7 @@ const obtenerArchivosMdDelDirectorio = (rutaDirectorio, arrayArchivos) => {
         arrayArchivos.push(rutaElemento);
       }
     } else {
+      // Llamar recurisavente a la funcion
       obtenerArchivosMdDelDirectorio(rutaElemento, arrayArchivos);
     }
   });
@@ -83,29 +85,57 @@ const obtenerArchivosMdDelDirectorio = (rutaDirectorio, arrayArchivos) => {
   return arrayArchivos;
 };
 
+// Validación de los links, retorna una promesa de array de objetos (link) con propiedades
 const validarLinks = (links) => {
-// map every url to the promise of the fetch
-  const requests = links.map(elem => fetch(elem.href)
-    .then((resultado) => {
-      const objetoCincoPropiedades = {
-        href: elem.href,
-        text: elem.text,
-        file: elem.file,
+// Búsqueda de links en la promesa y se crea un nuevo array donde se añaden 3 propiedades
+// Solicitudes
+  const promesasDeRequests = links.map(link => fetch(link.href) // aca hacemos un httprequest, map es el array de los objetos
+    .then((resultado) => { // aca obtenemos el httpresponse , then es por cada objeto
+      // Creando un nuevo objeto con 3 propiedades
+      const linkConEstado = {
+        href: link.href,
+        text: link.text,
+        file: link.file,
       };
-
-      objetoCincoPropiedades.status = resultado.status;
+      // Añadiendo 2 propiedades, retorna un objeto con cinco propiedades
+      linkConEstado.status = resultado.status;
       if (resultado.status >= 200 && resultado.status <= 308) {
-        objetoCincoPropiedades.statusText = 'ok';
+        linkConEstado.statusText = 'ok';
       } else {
-        objetoCincoPropiedades.statusText = 'fail';
+        linkConEstado.statusText = 'fail';
       }
-      return objetoCincoPropiedades;
+      return linkConEstado;
     }));
 
-  return Promise.all(requests)
-    .then(response => console.log(response))
-    .catch(err => console.error(err));
+  return Promise.all(promesasDeRequests)
+    .then((response) => {
+      response.forEach((link) => {
+        console.log(`${link.file} ${link.href} ${link.statusText} ${link.status} ${link.text}`);
+      });
+    })
+    .catch(err => console.log(err));
 };
+/*
+const links = [
+  {
+    href: 'http://www.google.es',
+    text: 'Google',
+    file: 'title',
+  },
+  {
+    href: 'http://www.facebook.es',
+    text: 'Facebook',
+    file: 'title',
+  },
+];
+
+validarLinks(links);*/
+
+// La función mdLinks retorna una promesa
+/* cont mdLinks = (ruta, options = { validate: true }) => new Promise((resolve, reject) => {
+
+
+)}; */
 
 
 /* Ejemplos de links prueba para su validacion
@@ -115,16 +145,12 @@ https://github.com/node-fetch/node-fetch/blob/HEAD/ERROR-HANDLING.md
 link roto
 https://github.cp
 
-
 // Link valida
 https://www.google.com
 */
 
 // Ruta de un archivo md
 // 'E:\\Laboratoria Sandy\\Proyectos Sandy\\LIM012-fe-md-links\\PRUEBA01.md'
-
-// La función mdLinks retorna una promesa
-// const mdLinks = (ruta, options = { validate: true }) => new Promise((resolve, reject) => {
 
 
 module.exports = {

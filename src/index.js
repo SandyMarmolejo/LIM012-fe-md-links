@@ -16,7 +16,9 @@ const ejecutaPrograma = (ruta, validar) => {
           if (validar) {
             main.validarLinks(links);
           } else {
-            console.log(links);
+            links.forEach(link =>{
+              console.log(link.file + ' '+ link.href +' ' + link.text);
+            });
           }
         } else {
           console.log('No se encontraron links en este archivo');
@@ -35,9 +37,13 @@ const ejecutaPrograma = (ruta, validar) => {
         if (links.length > 0) {
           // Validar cada link
           if (validar) {
+            // Si pasamos la opción -validar, es para averiguar si el link funciona o no con 5 propiedades
             main.validarLinks(links);
           } else {
-            console.log(links);
+            // Retorna un array de objeto con 3 propiedades
+            links.forEach(link => {
+              console.log(link.file + ' ' + link.href + ' ' + link.text);
+            });
           }
           linksDelDirectorio.push(links);
         }
@@ -51,4 +57,6 @@ const ejecutaPrograma = (ruta, validar) => {
   }
 };
 
-ejecutaPrograma('E:\\Laboratoria Sandy\\Proyectos Sandy\\LIM012-fe-md-links\\Dir01Prueba\\Dir02Prueba', true);
+ejecutaPrograma('E:\\Laboratoria Sandy\\Proyectos Sandy\\LIM012-fe-md-links\\Dir01Prueba\\PRUEBA02.md', true);
+
+//ejecutaPrograma('E:\\Laboratoria Sandy\\Proyectos Sandy\\LIM012-fe-md-links\\Dir01Prueba', false);
