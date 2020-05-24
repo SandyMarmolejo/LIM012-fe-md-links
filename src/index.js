@@ -1,6 +1,11 @@
 const main = require('./main.js');
 
-const ejecutaPrograma = (ruta, stats, validar) => {
+
+// ruta => 'readmes' options => {validate: true}
+/* const mdLinks = (ruta, option) => new Promise((resolve, reject) => {
+  resolve(validarLinks(ruta)); */
+
+const ejecutaPrograma = (ruta, options) => {
   let rutaAbsoluta = '';
 
   if (main.esRutaAbsoluta(ruta)) {
@@ -14,29 +19,28 @@ const ejecutaPrograma = (ruta, stats, validar) => {
         const links = main.obtenerLinks(rutaAbsoluta);
         if (links.length > 0) {
           if (stats && validar) {
-
+            main.validarLinksConStats(links);
           } else if (stats) {
             const totalLinks = links.length;
             const linksUnicos = [];
 
             links.forEach((link) => {
+              // Con indexOf se hace la busqueda de un elemento, si el elemento pasado como argumento a la función no existe entonces el valor retornado será -1
               if (linksUnicos.indexOf(link.href) === -1) {
                 linksUnicos.push(link.href);
               }
             });
 
             const totalLinksUnicos = linksUnicos.length;
-            console.log('Total:' + totalLinks);
-            console.log('Unique:' + totalLinksUnicos);
-
+            console.log(`Total:${totalLinks}`);
+            console.log(`Unique:${totalLinksUnicos}`);
           } else if (validar) {
             main.validarLinks(links);
           } else {
-            links.forEach(link => {
-              console.log(link.file + ' ' + link.href + ' ' + link.text);
+            links.forEach((link) => {
+              console.log(`${link.file} ${link.href} ${link.text}`);
             });
-          };
-
+          }
         } else {
           console.log('No se encontraron links en este archivo');
         }
@@ -52,34 +56,34 @@ const ejecutaPrograma = (ruta, stats, validar) => {
       rutaArchivosMdDelDirectorio.forEach((rutaArchivoMd) => {
         const links = main.obtenerLinks(rutaArchivoMd);
         if (links.length > 0) {
-          links.forEach(link => {
+          links.forEach((link) => {
             linksDelDirectorio.push(link);
-          })    
+          });
         }
       });
-      
-      if(stats && validar){
 
-      }else if (stats){
+      if (stats && validar) {
+
+
+      } else if (stats) {
         const totalLinks = linksDelDirectorio.length;
         const linksUnicos = [];
 
-        linksDelDirectorio.forEach(link =>{
-          if(linksUnicos.indexOf(link.href) === -1){
+        linksDelDirectorio.forEach((link) => {
+          if (linksUnicos.indexOf(link.href) === -1) {
             linksUnicos.push(link.href);
           }
         });
         const totalLinksUnicos = linksUnicos.length;
-        console.log('Total:' + ' ' + totalLinks);
-        console.log('Unique:' + ' ' + totalLinksUnicos);
-
-      }else if (validar){
-         // Si pasamos la opción -validar, es para averiguar si el link funciona o no con 5 propiedades
-         main.validarLinks(linksDelDirectorio);
-      }else{
-         // Retorna un array de objeto con 3 propiedades
-         linksDelDirectorio.forEach(link => {
-          console.log(link.file + ' ' + link.href + ' ' + link.text);
+        console.log(`${'Total:' + ' '}${totalLinks}`);
+        console.log(`${'Unique:' + ' '}${totalLinksUnicos}`);
+      } else if (validar) {
+        // Si pasamos la opción -validar, es para averiguar si el link funciona o no con 5 propiedades
+        main.validarLinks(linksDelDirectorio);
+      } else {
+        // Retorna un array de objeto con 3 propiedades
+        linksDelDirectorio.forEach((link) => {
+          console.log(`${link.file} ${link.href} ${link.text}`);
         });
       }
 
@@ -92,6 +96,6 @@ const ejecutaPrograma = (ruta, stats, validar) => {
   }
 };
 
-//ejecutaPrograma('E:\\Laboratoria Sandy\\Proyectos Sandy\\LIM012-fe-md-links\\Dir01Prueba\\PRUEBA02.md', true, false);
+// ejecutaPrograma('E:\\Laboratoria Sandy\\Proyectos Sandy\\LIM012-fe-md-links\\Dir01Prueba\\PRUEBA02.md', true, false);
 
 ejecutaPrograma('E:\\Laboratoria Sandy\\Proyectos Sandy\\LIM012-fe-md-links\\Dir01Prueba', true, false);

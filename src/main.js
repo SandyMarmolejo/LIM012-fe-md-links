@@ -29,10 +29,11 @@ const esArchivoMd = (ruta) => {
   return extension === '.md';
 };
 
-// Lectura sincrónica del contenido de un archivo.
+// Lectura sincrónica del contenido de un archivo
 const obtenerContenidoDeArchivo = ruta => fs.readFileSync(ruta, 'utf8');
 
-// Obteniendo los links de los archivos MD.
+// Obteniendo los links de los archivos MD
+// Retorna un array de objetos con tres propiedades por cada link
 const obtenerLinks = (ruta) => {
   const arrayLinks = [];
 
@@ -40,7 +41,7 @@ const obtenerLinks = (ruta) => {
   const renderer = new marked.Renderer();
   const file = ruta;
 
-  // Preparando el marked options, retorna un array de objetos con tres propiedades por cada link.
+  // Preparando el marked options
   renderer.link = (href, title, text) => {
     const link = {
       text,
@@ -87,10 +88,12 @@ const obtenerArchivosMdDelDirectorio = (rutaDirectorio, arrayArchivos) => {
 
 // Validación de los links, retorna una promesa de array de objetos (link) con propiedades
 const validarLinks = (links) => {
-// Búsqueda de links en la promesa y se crea un nuevo array donde se añaden 3 propiedades
-// Solicitudes
-  const promesasDeRequests = links.map(link => fetch(link.href) // aca hacemos un httprequest, map es el array de los objetos
-    .then((resultado) => { // aca obtenemos el httpresponse , then es por cada objeto
+// Se aplica map a la func fetch, retorna un array de promesas (cada promesa te devuelve un objeto)
+// Realizamos un httpRequest
+  const promesasDeRequests = links.map(link => fetch(link.href)
+    // Se establece el tipo de dato que me va a devolver la promesa (retorna objetos)
+    // Obtenemos el httpResponse, then es por cada objeto
+    .then((resultado) => {
       // Creando un nuevo objeto con 3 propiedades
       const linkConEstado = {
         href: link.href,
@@ -107,6 +110,7 @@ const validarLinks = (links) => {
       return linkConEstado;
     }));
 
+  // Recibe todas las promesas (array de promesas)
   return Promise.all(promesasDeRequests)
     .then((response) => {
       response.forEach((link) => {
@@ -115,6 +119,35 @@ const validarLinks = (links) => {
     })
     .catch(err => console.log(err));
 };
+
+/*
+// Opciones stats y validar juntos
+const validateLinks = (links) => {
+  const promesasDeRequests = links.map(link => fetch(link.href)
+  // Se establece el tipo de dato que me va a devolver la promesa (retorna objetos)
+  // Obtenemos el httpResponse, then es por cada objeto
+    .then((resultado) => {
+    // Creando un nuevo objeto con 3 propiedades
+      const linkConEstado = {
+        href: link.href,
+        text: link.text,
+        file: link.file,
+      };
+      // Añadiendo 2 propiedades, retorna un objeto con cinco propiedades
+      linkConEstado.status = resultado.status;
+      if (resultado.status >= 200 && resultado.status <= 308) {
+        linkConEstado.statusText = 'ok';
+      } else {
+        linkConEstado.statusText = 'fail';
+      }
+      return linkConEstado;
+    }));
+
+  // Recibe todas las promesas (array de promesas)
+  return Promise.all(promesasDeRequests)
+};
+*/
+
 /*
 const links = [
   {
@@ -136,10 +169,7 @@ const links = [
 
 */
 
-
-
-
-//validarLinks(links);
+// validarLinks(links);
 
 // La función mdLinks retorna una promesa
 /* cont mdLinks = (ruta, options = { validate: true }) => new Promise((resolve, reject) => {
