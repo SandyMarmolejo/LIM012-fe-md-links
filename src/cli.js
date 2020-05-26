@@ -1,48 +1,16 @@
+#!/usr/bin/env node
+const process = require('process');
 const mdLinks = require('./mdLinks.js');
-
-// Funcion Stats, retorna total y unicos.
-const stats = (links) => {
-  const totalLinks = links.length;
-  const linksUnicos = [];
-
-  links.forEach((link) => {
-    // Con indexOf se hace la busqueda de un elemento, si el elemento pasado como argumento a la función no existe entonces el valor retornado será -1
-    if (linksUnicos.indexOf(link.href) === -1) {
-      linksUnicos.push(link.href);
-    }
-  });
-
-  const stat = {
-    total: totalLinks,
-    unique: linksUnicos.length,
-  };
-
-  return stat;
-};
-
-// Funcion Validar con Stats, retorna total, unicos y rotos
-const validarConStats = (links) => {
-  const stat = stats(links);
-  const linksRotos = links => links.filter(link => link.statusText === 'Fail');
-
-  const validarConStat = {
-    total: stat.total,
-    unique: stat.unique,
-    broken: linksRotos.length,
-  };
-
-  return validarConStat;
-};
+const chalk = require('chalk');
 
 const cli = (ruta, opcionUno, opcionDos) => {
   if ((opcionUno === '--validate' && opcionDos === '--stats') || (opcionUno === '--stats' && opcionDos === '--validate')) {
-    console.log('Validate & stats: ');
-    mdLinks(ruta, { validate: true })
+    mdLinks.mdLinks(ruta, { validate: true })
       .then((links) => {
         if (links.length === 0) {
-          console.log('No hay archivos md. que analizar');
+          console.log('No hay links');
         } else {
-          const resultadoLinksConValidarYStats = validarConStats(links);
+          const resultadoLinksConValidarYStats = mdLinks.validarConStats(links);
 
           console.log(`Total : ${resultadoLinksConValidarYStats.total}`);
           console.log(`Unique : ${resultadoLinksConValidarYStats.unique}`);
@@ -51,27 +19,40 @@ const cli = (ruta, opcionUno, opcionDos) => {
       })
       .catch(console.error);
   } else if (opcionUno === '--validate') {
-    console.log('Validate: ');
-    mdLinks(ruta, { validate: true })
+    mdLinks.mdLinks(ruta, { validate: true })
       .then((links) => {
         if (links.length === 0) {
-          console.log('No hay archivos md. que analizar');
+          console.log('No hay links');
         } else {
-          console.table(links);
+          links.forEach((link) => {
+            console.log(`${link.file} ${link.href} ${link.text} ${chalk.green(link.status)} ${link.statusText}`);
+          });
+
         }
       })
       .catch(console.error);
   } else if (opcionUno === '--stats') {
-    console.log('Stats: ');
-    mdLinks(ruta, { validate: true })
+    mdLinks.mdLinks(ruta, { validate: true })
       .then((links) => {
         if (links.length === 0) {
-          console.log('No hay archivos md. que analizar');
+          console.log('No hay links');
         } else {
-          const resultadoLinksConStats = stats(links);
+          const resultadoLinksConStats = mdLinks.stats(links);
 
           console.log(`Total : ${resultadoLinksConStats.total}`);
           console.log(`Unique : ${resultadoLinksConStats.unique}`);
+        }
+      })
+      .catch(console.error);
+  } else if (opcionUno == undefined && opcionDos == undefined) {
+    mdLinks.mdLinks(ruta)
+      .then((links) => {
+        if (links.length === 0) {
+          console.log('No hay links');
+        } else {
+          links.forEach((link) => {
+            console.log(`${link.file} ${link.href} ${link.text}`);
+          });
         }
       })
       .catch(console.error);
@@ -79,3 +60,27 @@ const cli = (ruta, opcionUno, opcionDos) => {
     console.log('Opcion inválida');
   }
 };
+
+if (process.argv.length <= 2) {
+  console.log(chalk.red('Opción invalida'));
+  console.log(chalk.yellow('Ingrese como primer parámetro una ruta'));
+  console.log('Y además tiene las siguientes opciones');
+  console.log('--validate : ');
+  console.log('--stats : ');
+  console.log('--validate --stats : ');
+} else if (process.argv.length === 3) {
+  if (process.argv[2] === '--help') {
+    console.log(chalk.green('Bienvenidos a mdLinks'));
+    console.log(chalk.yellow('Ingrese como primer parámetro una ruta'));
+    console.log('Y además tiene las siguientes opciones');
+    console.log('--validate : ');
+    console.log('--stats : ');
+    console.log('--validate --stats : ');
+  } else {
+    cli(process.argv[2]);
+  }
+} else if (process.argv.length === 4) {
+  cli(process.argv[2], process.argv[3]);
+} else if (process.argv.length === 5) {
+  cli(process.argv[2], process.argv[3], process.argv[4]);
+}

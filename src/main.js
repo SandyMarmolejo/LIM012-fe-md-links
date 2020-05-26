@@ -91,9 +91,9 @@ const validarLinks = (arrayLinks) => {
   const arrayDePromesas = arrayLinks.map(link => new Promise(resolve => fetch(link.href)
     .then((resultado) => {
       const linkConEstado = {
-        href: link.href,
-        text: link.text,
-        file: link.file,
+        href: link.href.substring(0, 50),
+        text: link.text.substring(0, 50),
+        file: link.file.substring(0, 50),
       };
 
       linkConEstado.status = resultado.status;

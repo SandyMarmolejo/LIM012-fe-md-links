@@ -11,6 +11,9 @@
     "type": "git",
     "url": "git+https://github.com/SandyMarmolejo/LIM012-fe-md-links.git"
   },
+  "bin": {
+    "md-links": "./src/cli.js"
+  },
   "author": "",
   "license": "ISC",
   "bugs": {
