@@ -1,4 +1,3 @@
-const chalk = require('chalk');
 const main = require('./main.js');
 
 const mdLinks = (ruta, options) => new Promise((resolve, reject) => {
@@ -14,11 +13,9 @@ const mdLinks = (ruta, options) => new Promise((resolve, reject) => {
         const links = main.obtenerLinks(rutaAbsoluta);
         if (links.length > 0) {
           if (options === undefined || options.validate === false) {
-            links.forEach((link) => {
-              console.log(`${link.file} ${link.href} ${link.text}`);
-            });
+            resolve(links);
           } else if (options.validate === true) {
-            main.validarLinks(links);
+            resolve(main.validarLinks(links));
           }
         } else {
           const error = new Error('No se encontraron links en este archivo');
@@ -43,11 +40,9 @@ const mdLinks = (ruta, options) => new Promise((resolve, reject) => {
         }
       });
       if (options === undefined || options.validate === false) {
-        linksDelDirectorio.forEach((link) => {
-          console.log(`${link.file} ${link.href} ${link.text}`);
-        });
+        resolve(linksDelDirectorio);
       } else if (options.validate === true) {
-        main.validarLinks(linksDelDirectorio);
+        resolve(main.validarLinks(linksDelDirectorio));
       }
       if (linksDelDirectorio.length === 0) {
         const error = new Error('No hay links');
@@ -59,14 +54,6 @@ const mdLinks = (ruta, options) => new Promise((resolve, reject) => {
     reject(error.message);
   }
 });
-
-
-mdLinks('E:\\Laboratoria Sandy\\Proyectos Sandy\\LIM012-fe-md-links\\Dir01Prueba\\PRUEBA02.md', { validate: false })
-// mdLinks('E:\\Laboratoria Sandy\\Proyectos Sandy\\LIM012-fe-md-links\\Dir01Prueba', { validate: true })
-// mdLinks('E:\\Laboratoria Sandy\\Proyecto Sandy\\LIM012-fe-md-links\\Dir01Prueba')
-  .then(element => console.log(element))
-  .catch(error => console.log(chalk.red(error)));
-
 
 module.exports = {
   mdLinks,

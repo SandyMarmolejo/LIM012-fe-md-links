@@ -86,112 +86,30 @@ const obtenerArchivosMdDelDirectorio = (rutaDirectorio, arrayArchivos) => {
   return arrayArchivos;
 };
 
-// Validación de los links, retorna una promesa de array de objetos (link) con propiedades
-const validarLinks = (links) => {
-// Se aplica map a la func fetch, retorna un array de promesas (cada promesa te devuelve un objeto)
-// Realizamos un httpRequest
-  const promesasDeRequests = links.map(link => fetch(link.href)
-    // Se establece el tipo de dato que me va a devolver la promesa (retorna objetos)
-    // Obtenemos el httpResponse, then es por cada objeto
+// Validación de los links, retorna una promesa de array de objetos (links) con propiedades
+const validarLinks = (arrayLinks) => {
+  const arrayDePromesas = arrayLinks.map(link => new Promise(resolve => fetch(link.href)
     .then((resultado) => {
-      // Creando un nuevo objeto con 3 propiedades
       const linkConEstado = {
         href: link.href,
         text: link.text,
         file: link.file,
       };
-      // Añadiendo 2 propiedades, retorna un objeto con cinco propiedades
+
       linkConEstado.status = resultado.status;
+
       if (resultado.status >= 200 && resultado.status <= 308) {
         linkConEstado.statusText = 'ok';
       } else {
         linkConEstado.statusText = 'fail';
       }
-      return linkConEstado;
-    }));
-
-  // Recibe todas las promesas (array de promesas)
-  return Promise.all(promesasDeRequests)
-    .then((response) => {
-      response.forEach((link) => {
-        console.log(`${link.file} ${link.href} ${link.statusText} ${link.status} ${link.text}`);
-      });
+      resolve(linkConEstado);
     })
-    .catch(err => console.log(err));
+    .catch(err => console.log(err))));
+
+  return Promise.all(arrayDePromesas)
+    .then(resultado => resultado);
 };
-
-/*
-// Opciones stats y validar juntos
-const validateLinks = (links) => {
-  const promesasDeRequests = links.map(link => fetch(link.href)
-  // Se establece el tipo de dato que me va a devolver la promesa (retorna objetos)
-  // Obtenemos el httpResponse, then es por cada objeto
-    .then((resultado) => {
-    // Creando un nuevo objeto con 3 propiedades
-      const linkConEstado = {
-        href: link.href,
-        text: link.text,
-        file: link.file,
-      };
-      // Añadiendo 2 propiedades, retorna un objeto con cinco propiedades
-      linkConEstado.status = resultado.status;
-      if (resultado.status >= 200 && resultado.status <= 308) {
-        linkConEstado.statusText = 'ok';
-      } else {
-        linkConEstado.statusText = 'fail';
-      }
-      return linkConEstado;
-    }));
-
-  // Recibe todas las promesas (array de promesas)
-  return Promise.all(promesasDeRequests)
-};
-*/
-
-/*
-const links = [
-  {
-    href: 'http://www.google.es',
-    text: 'Google',
-    file: 'title',
-  },
-  {
-    href: 'http://www.facebook.es',
-    text: 'Facebook',
-    file: 'title',
-  },
-  {
-    href: 'http://www.twitter.es',
-    text: 'Google',
-    file: 'title',
-  }
-];
-
-*/
-
-// validarLinks(links);
-
-// La función mdLinks retorna una promesa
-/* cont mdLinks = (ruta, options = { validate: true }) => new Promise((resolve, reject) => {
-
-
-)}; */
-
-
-/* Ejemplos de links prueba para su validacion
-404 - Not Found
-https://github.com/node-fetch/node-fetch/blob/HEAD/ERROR-HANDLING.md
-
-link roto
-https://github.cp
-
-// Link valida
-https://www.google.com
-*/
-
-// Ruta de un archivo md
-// 'E:\\Laboratoria Sandy\\Proyectos Sandy\\LIM012-fe-md-links\\PRUEBA01.md'
-
 
 module.exports = {
   esRutaAbsoluta,

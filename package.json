@@ -1,9 +1,9 @@
 {
   "name": "md-links",
   "version": "1.0.0",
-  "main": "index.js",
+  "main": "mdLinks.js",
   "scripts": {
-    "start": "node src/index.js",
+    "start": "node src/cli.js",
     "eslint": "eslint --ext .js src/ test/",
     "test": "jest --verbose --coverage"
   },
