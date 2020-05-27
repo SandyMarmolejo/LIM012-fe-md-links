@@ -45,20 +45,23 @@ mdLinks("./some/dir")
   .catch(console.error);
 ```
 
-
 ### CLI (Command Line Interface - Interfaz de Línea de Comando)
 
+Al colocar md-links en la terminal y --help se muestra el mensaje de bienvenida y las opciones que puedes escoger.
+
+Por ejemplo:
+
+<img src="Imgenes guia de uso\help.png">
+
+Si no se ingresa ninguna ruta ni alguna de las opciones, se mostrará un mensaje de opción inválida y te volverá a mostar el mensaje de bienvenida y las opciones que puedes escoger.
+
+<img src="Imgenes guia de uso\no se ingresa ninguna opcion ni ruta.png">
 
 `md-links <path-to-file> [options]`
 
 Por ejemplo:
 
-```sh
-$ md-links ./some/example.md
-./some/example.md http://algo.com/2/3/ Link a algo
-./some/example.md https://otra-cosa.net/algun-doc.html algún doc
-./some/example.md http://google.com/ Google
-```
+<img src="Imgenes guia de uso\solo ruta.png">
 
 Por default identifica el archivo markdown (a partir de la ruta que recibe como
 argumento), analiza el archivo Markdown e imprimir los links que vaya
@@ -76,35 +79,25 @@ URL.
 
 Por ejemplo:
 
-```sh13d99df067c1
-$ md-13d99df067c1
-./some/example.md http://algo.com/2/3/ ok 200 Link a algo
-./some/example.md https://otra-cosa.net/algun-doc.html fail 404 algún doc
-./some/example.md http://google.com/ ok 301 Google
-```
+<img src="Imgenes guia de uso\opcion validate.png">
 
 ##### `--stats`
 
 Si pasamos la opción `--stats` el output (salida) será un texto con estadísticas
 básicas sobre los links.
 
-```sh
-$ md-links ./some/example.md --stats
-Total: 3
-Unique: 3
-```
+Por ejemplo:
+
+<img src="Imgenes guia de uso\opcion stats.png">
+
 ##### `--stats` y `--validate`
 
 También podemos combinar las opciones para obtener estadísticas que
 necesiten de los resultados de la validación.
 
-```sh
-$ md-links ./some/example.md --stats --validate
-Total: 3
-Unique: 3
-Broken: 1
-```
+Por ejemplo:
 
+<img src="Imgenes guia de uso\opcion validate y stats.png">
 
 ## Objetivos de aprendizaje
 
