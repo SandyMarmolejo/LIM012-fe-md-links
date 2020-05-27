@@ -12,9 +12,9 @@ const cli = (ruta, opcionUno, opcionDos) => {
         } else {
           const resultadoLinksConValidarYStats = mdLinks.validarConStats(links);
 
-          console.log(`Total : ${resultadoLinksConValidarYStats.total}`);
-          console.log(`Unique : ${resultadoLinksConValidarYStats.unique}`);
-          console.log(`Broken : ${resultadoLinksConValidarYStats.broken}`);
+          console.log(chalk.greenBright(`Total : ${resultadoLinksConValidarYStats.total}`));
+          console.log(chalk.greenBright(`Unique : ${resultadoLinksConValidarYStats.unique}`));
+          console.log(chalk.redBright(`Broken : ${resultadoLinksConValidarYStats.broken}`));
         }
       })
       .catch(console.error);
@@ -25,7 +25,7 @@ const cli = (ruta, opcionUno, opcionDos) => {
           console.log('No hay links');
         } else {
           links.forEach((link) => {
-            console.log(`${link.file} ${link.href} ${link.text} ${chalk.green(link.status)} ${link.statusText}`);
+            console.log(`${link.file} ${chalk.blueBright(link.href)} ${chalk.magentaBright(link.status)} ${chalk.green(link.statusText)} ${link.text}`);
           });
 
         }
@@ -39,8 +39,8 @@ const cli = (ruta, opcionUno, opcionDos) => {
         } else {
           const resultadoLinksConStats = mdLinks.stats(links);
 
-          console.log(`Total : ${resultadoLinksConStats.total}`);
-          console.log(`Unique : ${resultadoLinksConStats.unique}`);
+          console.log(chalk.greenBright(`Total : ${resultadoLinksConStats.total}`));
+          console.log(chalk.greenBright(`Unique : ${resultadoLinksConStats.unique}`));
         }
       })
       .catch(console.error);
@@ -51,7 +51,7 @@ const cli = (ruta, opcionUno, opcionDos) => {
           console.log('No hay links');
         } else {
           links.forEach((link) => {
-            console.log(`${link.file} ${link.href} ${link.text}`);
+            console.log(`${link.file} ${chalk.blueBright(link.href)} ${link.text}`);
           });
         }
       })
