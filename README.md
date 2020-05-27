@@ -51,17 +51,17 @@ Al colocar md-links en la terminal y --help se muestra el mensaje de bienvenida 
 
 Por ejemplo:
 
-<img src="Imgenes guia de uso\help.png">
+<img src="Imagenes guia de uso\help.png">
 
 Si no se ingresa ninguna ruta ni alguna de las opciones, se mostrará un mensaje de opción inválida y te volverá a mostar el mensaje de bienvenida y las opciones que puedes escoger.
 
-<img src="Imgenes guia de uso\no se ingresa ninguna opcion ni ruta.png">
+<img src="Imagenes guia de uso\no se ingresa ninguna opcion ni ruta.png">
 
 `md-links <path-to-file> [options]`
 
 Por ejemplo:
 
-<img src="Imgenes guia de uso\solo ruta.png">
+<img src="Imagenes guia de uso\solo ruta.png">
 
 Por default identifica el archivo markdown (a partir de la ruta que recibe como
 argumento), analiza el archivo Markdown e imprimir los links que vaya
@@ -79,7 +79,7 @@ URL.
 
 Por ejemplo:
 
-<img src="Imgenes guia de uso\opcion validate.png">
+<img src="Imagenes guia de uso\opcion validate.png">
 
 ##### `--stats`
 
@@ -88,7 +88,7 @@ básicas sobre los links.
 
 Por ejemplo:
 
-<img src="Imgenes guia de uso\opcion stats.png">
+<img src="Imagenes guia de uso\opcion stats.png">
 
 ##### `--stats` y `--validate`
 
@@ -97,7 +97,7 @@ necesiten de los resultados de la validación.
 
 Por ejemplo:
 
-<img src="Imgenes guia de uso\opcion validate y stats.png">
+<img src="Imagenes guia de uso\opcion validate y stats.png">
 
 ## Objetivos de aprendizaje
 
