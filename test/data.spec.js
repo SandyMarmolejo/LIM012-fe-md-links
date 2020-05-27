@@ -1,5 +1,4 @@
 const main = require('../src/main.js');
-const mdLinks = require('../src/mdLinks.js');
 
 describe('esRutaAbsoluta', () => {
   it('is a function', () => {
@@ -38,13 +37,3 @@ describe('esRutaValida', () => {
     expect(main.esRutaValida(inputTres)).toEqual(outputTres);
   });
 });
-
-
-describe('mdLinks', () => {
-  it('Es una funcion', () => {
-    expect(typeof mdLinks).toBe('function');
-  });
-
-
-// describe('mdLinks', () => {
-//   it('deberia devolver un arreglo de objetos, donde cada objeto representa un link', (done) => 
