@@ -15,7 +15,7 @@ la información que se quiere compartir.
 
 ## Instalación
 
-npm install sandymarmolejo/md-links
+npm install github.com/SandyMarmolejo/LIM012-fe-md-links
 
 ## Usos
 
