@@ -15,13 +15,12 @@ la información que se quiere compartir.
 
 ## Instalación
 
-npm install github.com/SandyMarmolejo/LIM012-fe-md-links
+```
+npm i sandymarmolejo-md-links --save
+```
 
 ## Usos
 
-const mdLinks = require('sandymarmolejo-md-links');
-
-#### Ejemplo
 
 ```js
 const mdLinks = require("md-links");
@@ -45,30 +44,9 @@ mdLinks("./some/dir")
   .catch(console.error);
 ```
 
-### CLI (Command Line Interface - Interfaz de Línea de Comando)
+## Opciones
 
-Al colocar md-links en la terminal y --help se muestra el mensaje de bienvenida y las opciones que puedes escoger.
-
-Por ejemplo:
-
-<img src="Imagenes guia de uso\help.png">
-
-Si no se ingresa ninguna ruta ni alguna de las opciones, se mostrará un mensaje de opción inválida y te volverá a mostar el mensaje de bienvenida y las opciones que puedes escoger.
-
-<img src="Imagenes guia de uso\no se ingresa ninguna opcion ni ruta.png">
-
-`md-links <path-to-file> [options]`
-
-Por ejemplo:
-
-<img src="Imagenes guia de uso\solo ruta.png">
-
-Por default identifica el archivo markdown (a partir de la ruta que recibe como
-argumento), analiza el archivo Markdown e imprimir los links que vaya
-encontrando, junto con la ruta del archivo donde aparece y el texto
-que hay dentro del link.
-
-#### Options
+MdLink tiene 2 opciones, ambas son opcionales y pueden usarse juntas también:
 
 ##### `--validate`
 
@@ -99,37 +77,29 @@ Por ejemplo:
 
 <img src="Imagenes guia de uso\opcion validate y stats.png">
 
-## Objetivos de aprendizaje
 
-Recuerda colocar en esta seccion los objetivos de aprendizaje que quedaron 
-pendientes de tu proyecto anterior.
+### CLI (Command Line Interface - Interfaz de Línea de Comando)
 
-### Javascript
-- [ ] Uso de callbacks
-- [X] Consumo de Promesas
-- [X] Creacion de Promesas
-- [X] Modulos de Js
-- [X] Recursión
+Al colocar md-links en la terminal y --help se muestra el mensaje de bienvenida y las opciones que puedes escoger.
 
-### Node
-- [X] Sistema de archivos
-- [X] package.json
-- [X] crear modules
-- [X] Instalar y usar modules
-- [X] npm scripts
-- [X] CLI (Command Line Interface - Interfaz de Línea de Comando)
+Por ejemplo:
 
-### Testing
-- [X] Testeo de tus funciones
-- [ ] Testeo asíncrono
-- [ ] Uso de librerias de Mock
-- [X] Mocks manuales
-- [ ] Testeo para multiples Sistemas Operativos
+<img src="Imagenes guia de uso\help.png">
 
-### Git y Github
-- [X] Organización en Github
+Si no se ingresa ninguna ruta ni alguna de las opciones, se mostrará un mensaje de opción inválida y te volverá a mostar el mensaje de bienvenida y las opciones que puedes escoger.
 
-### Buenas prácticas de desarrollo
-- [X] Modularización
-- [X] Nomenclatura / Semántica
-- [ ] Linting
+<img src="Imagenes guia de uso\no se ingresa ninguna opcion ni ruta.png">
+
+`md-links <path-to-file> [options]`
+
+Por ejemplo:
+
+<img src="Imagenes guia de uso\solo ruta.png">
+
+Por default identifica el archivo markdown (a partir de la ruta que recibe como
+argumento), analiza el archivo Markdown e imprimir los links que vaya
+encontrando, junto con la ruta del archivo donde aparece y el texto
+que hay dentro del link.
+
+
+
