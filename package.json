@@ -1,6 +1,6 @@
 {
-  "name": "@SandyMarmolejo/md-links",
-  "version": "1.0.0",
+  "name": "sandymarmolejo-md-links",
+  "version": "1.0.2",
   "main": "mdLinks.js",
   "scripts": {
     "start": "node src/cli.js",
